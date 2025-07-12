@@ -1,8 +1,44 @@
-const { number } = require("framer-motion");
 const mongoose = require("mongoose");
 
 const bookingsSchema = new mongoose.Schema(
   {
+    trip: {
+      pickupLocation: {
+        type: String,
+        required: true,
+      },
+      dropoffLocation: {
+        type: String,
+        required: true,
+      },
+      date: {
+        type: Date,
+        required: true,
+      },
+      time: {
+        type: String,
+        required: true,
+      },
+      vehicleType: {
+        type: String,
+        enum: ["sedan", "mpv"],
+        required: true,
+      },
+      ridePurpose: {
+        type: String,
+        enum: ["airport", "city", "event", "meeting", "others"],
+        default: "others",
+      },
+      paxNumber: {
+        type: Number,
+        required: true,
+        default: 1,
+      },
+      specialRequests: {
+        type: String,
+      },
+    },
+
     flights: {
       number: { type: String, default: "" },
       terminal: { type: String, default: "" },
@@ -13,81 +49,57 @@ const bookingsSchema = new mongoose.Schema(
         default: false,
       },
     },
-    pickupLocation: {
-      type: String,
-      required: true,
-    },
-    dropoffLocation: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-    },
-    time: {
-      type: String,
-      required: true,
-    },
-    vehicleType: {
-      type: String,
-      enum: ["sedan", "mpv"],
-      required: true,
-    },
-    ridePurpose: {
-      type: String,
-      enum: ["airport", "city", "event", "meeting", "others"],
-      default: "others",
-    },
-    bookingName: {
-      type: String,
-      required: true,
-    },
-    bookingPhone: {
-      type: String,
-      required: true,
-    },
-    bookingEmail: {
-      type: String,
-      required: true,
-    },
-    guestName: {
-      type: String,
-      required: true,
-    },
-    guestPhone: {
-      type: String,
-      required: true,
-    },
-    paxNumber: {
-      type: Number,
-      required: true,
-      default: 1,
-    },
-    specialRequests: {
-      type: String,
+
+    contact: {
+      bookingName: {
+        type: String,
+        required: true,
+      },
+      bookingPhone: {
+        type: String,
+        required: true,
+      },
+      bookingEmail: {
+        type: String,
+        required: true,
+      },
     },
 
-    isDepositTncChecked: {
-      type: Boolean,
-      required: true,
-      default: false,
+    guest: {
+      guestName: {
+        type: String,
+        required: true,
+      },
+
+      guestPhone: {
+        type: String,
+        required: true,
+      },
     },
 
-    isDepositPaid: {
-      type: Boolean,
-      default: false,
+    agreement: {
+      isDepositTncChecked: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
+      isDepositPaid: {
+        type: Boolean,
+        default: false,
+      },
+      isAdminTncChecked: {
+        type: Boolean,
+        required: true,
+        default: false,
+      },
     },
-    isAdminTncChecked: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+
     driverAssigned: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Drivers",
-      default: "unassigned",
+      default: null,
     },
+
     status: {
       type: String,
       enum: ["pending", "confirmed", "completed", "cancelled"],

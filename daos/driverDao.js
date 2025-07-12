@@ -24,29 +24,31 @@ const driverSchema = new mongoose.Schema(
         },
         jwt: {
             type: String,
+            required: true,
         },
-        vehicle_types: {
-            // store strings of vehicle types
-            type: [String],
-            default: [],
-        },
-        car_plate: {
-            type: String,
-            default: "",
-        },
-        // store booking id instead of object as mongoDB has a file limit
-        // if bookings continuously change, the object within driver will need to be updated as well
-        bookings: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Booking",
-                default: [],
+        vehicle: {
+            plateNumber: {
+                type: String,
+                required: true,
+                default: "unassigned",
             },
-        ],
+            model: {
+                type: String,
+                required: true,
+                default: "unassigned",
+            },
+            vehicleType: {
+                // store string of vehicle types
+                type: String,
+                enum: ["sedan", "mpv"],
+                required: true,
+                default: "unassigned",
+            },
+        },
     },
     // automatically add createdAt and updatedAt by mongoose
     { timestamps: true }
 );
 
 // By convention, the name of the Model is singular and UpperCamelCased
-module.exports = mongoose.model("Driver", driverSchema);
+module.exports = mongoose.model("Drivers", driverSchema);

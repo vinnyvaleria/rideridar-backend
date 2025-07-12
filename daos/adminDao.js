@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // reuse for bookings, drivers and accounts
-const permissionsSchema = new mongoose.Schema(
+const permissionSchema = new mongoose.Schema(
     {
         add: { type: Boolean, default: false },
         view: { type: Boolean, default: false },
@@ -36,21 +36,23 @@ const adminSchema = new mongoose.Schema(
         jwt: {
             type: String,
         },
-        is_super: {
+        isSuperAdmin: {
             type: Boolean,
             default: false,
         },
-        bookings: {
-            type: permissionsSchema,
-            default: {},
-        },
-        drivers: {
-            type: permissionsSchema,
-            default: {},
-        },
-        account: {
-            type: permissionsSchema,
-            default: {},
+        permissionDetails: {
+            bookings: {
+                type: permissionSchema,
+                default: {},
+            },
+            drivers: {
+                type: permissionSchema,
+                default: {},
+            },
+            account: {
+                type: permissionSchema,
+                default: {},
+            },
         },
     },
     // automatically add createdAt and updatedAt by mongoose
@@ -58,4 +60,4 @@ const adminSchema = new mongoose.Schema(
 );
 
 // By convention, the name of the Model is singular and UpperCamelCased
-module.exports = mongoose.model("Admin", adminSchema);
+module.exports = mongoose.model("Admins", adminSchema);

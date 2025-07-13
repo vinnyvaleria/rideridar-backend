@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const bookingsSchema = new mongoose.Schema(
   {
     trip: {
-      pickupLocation: {
+      pickup: {
         type: String,
         required: true,
       },
-      dropoffLocation: {
+      dropoff: {
         type: String,
         required: true,
       },
@@ -26,8 +26,8 @@ const bookingsSchema = new mongoose.Schema(
       },
       ridePurpose: {
         type: String,
-        enum: ["airport", "city", "event", "meeting", "others"],
-        default: "others",
+        enum: ["flight", "local"],
+        default: "flight",
       },
       paxNumber: {
         type: Number,
@@ -39,7 +39,7 @@ const bookingsSchema = new mongoose.Schema(
       },
     },
 
-    flights: {
+    flight: {
       number: { type: String, default: "" },
       terminal: { type: String, default: "" },
       gate: { type: String, default: "" },
@@ -51,33 +51,33 @@ const bookingsSchema = new mongoose.Schema(
     },
 
     contact: {
-      bookingName: {
+      name: {
         type: String,
         required: true,
       },
-      bookingPhone: {
+      phone: {
         type: String,
         required: true,
       },
-      bookingEmail: {
+      email: {
         type: String,
         required: true,
       },
     },
 
     guest: {
-      guestName: {
+      name: {
         type: String,
         required: true,
       },
 
-      guestPhone: {
+      phone: {
         type: String,
         required: true,
       },
     },
 
-    agreement: {
+    bookingReview: {
       isDepositTncChecked: {
         type: Boolean,
         required: true,
@@ -102,7 +102,7 @@ const bookingsSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "confirmed", "completed", "cancelled"],
+      enum: ["pending", "confirmed", "inprogress", "completed", "cancelled"],
       default: "pending",
     },
   },

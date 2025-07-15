@@ -18,12 +18,12 @@ const adminSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        password: {
+        hashedPassword: {
             type: String,
             required: true,
         },
         phone: {
-            type: Number,
+            type: String,
             required: true,
             unique: true,
         },

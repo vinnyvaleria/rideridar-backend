@@ -1,9 +1,8 @@
 var express = require("express");
 var router = express.Router();
+const driverCtrl = require("../controllers/driverCtrl");
 
-/* GET drivers list */
-router.get("/", function (req, res, next) {
-    res.send("respond with a resource");
-});
+router.post("/", driverCtrl.createDriver);
+router.get("/", driverCtrl.showAllDrivers);
 
 module.exports = router;

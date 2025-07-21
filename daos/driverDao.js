@@ -40,7 +40,7 @@ const driverSchema = new mongoose.Schema(
             vehicleType: {
                 // store string of vehicle types
                 type: String,
-                enum: ["sedan", "mpv"],
+                enum: ["sedan", "mpv", "luxury"],
                 required: true,
                 default: "unassigned",
             },

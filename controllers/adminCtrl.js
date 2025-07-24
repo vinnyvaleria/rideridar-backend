@@ -36,7 +36,23 @@ async function loginAdmin(req, res) {
     }
 }
 
+async function logoutAdmin(req, res) {
+    try {
+        const adminResp = await adminModel.logoutUser(req.body);
+
+        if (adminResp.status && adminResp.status === 1) {
+            return res.status(404).json({ message: adminResp.message });
+        } else {
+            return res.json({ message: adminResp });
+        }
+    } catch (error) {
+        console.error("Error logout:", error.message);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
     createAdmin,
     loginAdmin,
+    logoutAdmin,
 };

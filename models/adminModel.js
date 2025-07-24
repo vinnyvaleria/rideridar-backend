@@ -94,7 +94,29 @@ async function loginUser(data) {
     }
 }
 
+async function logoutUser(data) {
+    // retrieve userData based on email
+    const userData = await Admin.findOne({ email: data.email });
+
+    if (!userData) {
+        return {
+            status: 1,
+            message: "No account found with this email.",
+        };
+    }
+
+    // clear the stored JWT
+    userData.jwt = "";
+    await userData.save();
+
+    return {
+        status: 0,
+        message: "Logout successful.",
+    };
+}
+
 module.exports = {
     addAdmin,
     loginUser,
+    logoutUser,
 };

@@ -47,6 +47,54 @@ async function addAdmin(data) {
     };
 }
 
+async function loginUser(data) {
+    // check if user email address exists
+    const userFound = await Admin.findOne({ email: data.email });
+
+    if (!userFound) {
+        return {
+            status: 1,
+            message: "There is no account found with the email entered.",
+        };
+    }
+
+    // retrieve salt and iterations stored during registration
+    const salt = userFound.hash?.salt;
+    const iterations = userFound.hash?.iterations || 5;
+
+    if (!salt) {
+        return {
+            status: 2,
+            message: "User password hash data missing.",
+        };
+    }
+
+    const hashInputPassword = crypto
+        .PBKDF2(data.password, crypto.enc.Hex.parse(salt), {
+            keySize: 256 / 32,
+            iterations: iterations,
+            hasher: crypto.algo.SHA256,
+        })
+        .toString(crypto.enc.Hex);
+
+    // compare the 2 hashed data
+    if (hashInputPassword === userFound.hashedPassword) {
+        // succesful authentication
+        return {
+            status: 0,
+            message: "Login successful",
+            admin: userFound,
+        };
+    } else {
+        // Password mismatch
+        return {
+            status: 3,
+            message: "Incorrect password",
+        };
+    }
+}
+
 module.exports = {
     addAdmin,
+    loginUser,
 };

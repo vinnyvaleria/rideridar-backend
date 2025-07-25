@@ -54,6 +54,69 @@ async function addUser(data, Model, userType = "user") {
     }
 }
 
+async function loginUser(data, Model, userType = "user") {
+    try {
+        // check if user email address exists
+        const userFound = await Model.findOne({ email: data.email });
+
+        if (!userFound) {
+            return {
+                status: 1,
+                message: "Invalid credentials.",
+            };
+        }
+
+        // retrieve salt and iterations stored during registration
+        const { salt, iterations = 100 } = userFound.hash;
+
+        // get the stored password hash based on user type
+        const storedHash =
+            userType === "admin"
+                ? userFound.hashedPassword
+                : userFound.password;
+
+        // verify password
+        const isPasswordValid = this.verifyPassword(
+            data.password,
+            storedHash,
+            salt,
+            iterations
+        );
+
+        if (isPasswordValid) {
+            // create a jwt token
+            const token = this.createToken({
+                email: data.email,
+                name: userFound.name,
+                userType: userType,
+            });
+
+            await Model.updateOne({ email: data.email }, { jwt: token });
+
+            // successful authentication
+            return {
+                status: 0,
+                message: "Login successful",
+                user: userFound,
+                token: token,
+            };
+        } else {
+            // password mismatch
+            return {
+                status: 1,
+                message: "Invalid credentials.",
+            };
+        }
+    } catch (error) {
+        console.error(`Error in login${userType}:`, error);
+        return {
+            status: 500,
+            message: "Server error occurred",
+        };
+    }
+}
+
 module.exports = {
     addUser,
+    loginUser,
 };

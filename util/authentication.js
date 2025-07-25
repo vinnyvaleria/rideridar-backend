@@ -49,4 +49,5 @@ function createToken(userData) {
 module.exports = {
     hashPassword,
     verifyPassword,
+    createToken,
 };

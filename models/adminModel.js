@@ -1,4 +1,3 @@
-const { loginAdmin, logoutAdmin } = require("../controllers/adminCtrl");
 const Admin = require("../daos/adminDao");
 const userModel = require("./userModel");
 

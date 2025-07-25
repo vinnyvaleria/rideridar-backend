@@ -2,11 +2,11 @@ const Admin = require("../daos/adminDao");
 const userModel = require("./userModel");
 
 async function getAllAdmins() {
-    return await Admin.find({});
+    return await userModel.getAllUsers(Admin);
 }
 
 async function getAdminById(id) {
-    return await Admin.findById(id);
+    return await userModel.getUserById(Admin, id);
 }
 
 async function addAdmin(data) {

@@ -1,5 +1,29 @@
 const authUtil = require("../util/authentication");
 
+async function getAllUsers(Model) {
+    try {
+        return Model.find({});
+    } catch (error) {
+        console.error(`Error in fetching all ${userType} data:`, error);
+        return {
+            status: 500,
+            message: "Server error occurred",
+        };
+    }
+}
+
+async function getUserById(Model, id) {
+    try {
+        return Model.findOne({ id: id });
+    } catch (error) {
+        console.error(`Error in fetching all ${userType} data:`, error);
+        return {
+            status: 500,
+            message: "Server error occurred",
+        };
+    }
+}
+
 async function addUser(data, Model, userType = "user") {
     try {
         // check for existing user through email
@@ -182,6 +206,8 @@ function generateUserId(data, userType) {
 }
 
 module.exports = {
+    getAllUsers,
+    getUserById,
     addUser,
     loginUser,
     logoutUser,

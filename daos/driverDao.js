@@ -7,7 +7,7 @@ const driverSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
-        password: {
+        hashedPassword: {
             type: String,
             required: true,
         },

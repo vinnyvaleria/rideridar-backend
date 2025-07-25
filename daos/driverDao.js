@@ -24,7 +24,14 @@ const driverSchema = new mongoose.Schema(
         },
         jwt: {
             type: String,
-            required: true,
+        },
+        hash: {
+            salt: {
+                type: String,
+            },
+            iterations: {
+                type: Number,
+            },
         },
         status: {
             type: String,

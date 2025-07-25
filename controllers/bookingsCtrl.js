@@ -43,8 +43,40 @@ async function getBookingById(req, res) {
     }
 }
 
+async function assignDriverToBooking(req, res) {
+    try {
+        const { id } = req.params;
+        const { driverId } = req.body;
+
+        // Debug logs
+        console.log("Booking ID:", id);
+        console.log("Driver ID from body:", driverId);
+        console.log("Full request body:", req.body);
+
+        if (!driverId) {
+            return res.status(400).json({ error: "Driver ID is required" });
+        }
+
+        const updatedBooking = await bookingModel.updateDriver(id, driverId);
+
+        if (!updatedBooking) {
+            return res.status(404).json({ error: "Booking not found" });
+        }
+
+        res.json({
+            success: true,
+            message: "Driver assigned successfully",
+            data: updatedBooking,
+        });
+    } catch (error) {
+        console.error("Error assigning driver:", error.message);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
 module.exports = {
     createBooking,
     getAllBookings,
     getBookingById,
+    assignDriverToBooking,
 };

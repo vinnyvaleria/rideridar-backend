@@ -116,7 +116,38 @@ async function loginUser(data, Model, userType = "user") {
     }
 }
 
+async function logoutUser(data, Model, userType = "user") {
+    try {
+        // retrieve userData based on email
+        const userData = await Model.findOne({ email: data.email });
+
+        if (!userData) {
+            return {
+                status: 1,
+                message: "No account found with this email.",
+            };
+        }
+
+        // clear the stored JWT
+        userData.jwt = "";
+        await userData.save();
+
+        return {
+            status: 0,
+            message: "Logout successful.",
+            user: userData,
+        };
+    } catch (error) {
+        console.error(`Error in logout${userType}:`, error);
+        return {
+            status: 500,
+            message: "Server error occurred",
+        };
+    }
+}
+
 module.exports = {
     addUser,
     loginUser,
+    logoutUser,
 };

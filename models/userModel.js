@@ -3,7 +3,10 @@ const authUtil = require("../util/authentication");
 async function addUser(data, Model, userType = "user") {
     try {
         // check for existing user through email
-        const userFound = await Model.findOne({ email: data.email });
+        const userFound = await Model.findOne({
+            email: data.email,
+            phone: data.phone,
+        });
 
         if (userFound) {
             return {
@@ -25,12 +28,16 @@ async function addUser(data, Model, userType = "user") {
             data.password
         );
 
+        // create id for user
+        const id = generateUserId(data, userType);
+
         // remove plain password from data
         delete data.password;
 
         // prepare user data
         const userData = {
             ...data,
+            id,
             hashedPassword,
             hash: {
                 salt,
@@ -142,6 +149,35 @@ async function logoutUser(data, Model, userType = "user") {
             status: 500,
             message: "Server error occurred",
         };
+    }
+}
+
+function generateUserId(data, userType) {
+    const namePart = data.name
+        .split(" ")
+        .map((word) => word[0].toUpperCase())
+        .join("");
+
+    // last 3 digits of phone
+    const phonePart = data.phone.toString().slice(-3);
+
+    if (userType === "driver") {
+        // first letter of vehicleType
+        const vehicleTypePart = data.vehicle.vehicleType[0].toUpperCase();
+        // last 3 alphanumerics of plateNumber
+        const platePart = data.vehicle.plateNumber
+            .replace(/\s+/g, "")
+            .slice(-3)
+            .toUpperCase();
+        // combined vehicle parts
+        const vehiclePart = `${vehicleTypePart}${platePart}`;
+
+        return `D-${namePart}${phonePart}-${vehiclePart}`;
+    } else if (userType === "admin") {
+        // super admin part
+        const superAdminPart = data.isSuperAdmin ? "S" : "R";
+
+        return `A-${namePart}${phonePart}${superAdminPart}`;
     }
 }
 

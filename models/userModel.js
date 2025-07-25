@@ -72,10 +72,7 @@ async function loginUser(data, Model, userType = "user") {
         const { salt, iterations = 100 } = userFound.hash;
 
         // get the stored password hash based on user type
-        const storedHash =
-            userType === "admin"
-                ? userFound.hashedPassword
-                : userFound.password;
+        const storedHash = userFound.hashedPassword;
 
         // verify password
         const isPasswordValid = authUtil.verifyPassword(

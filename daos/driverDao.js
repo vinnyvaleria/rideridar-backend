@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const driverSchema = new mongoose.Schema(
     {
+        id: {
+            type: String,
+        },
         name: {
             type: String,
             required: true,
@@ -61,33 +64,6 @@ const driverSchema = new mongoose.Schema(
     // automatically add createdAt and updatedAt by mongoose
     { timestamps: true }
 );
-
-// pre-save hook to generate 'id'
-driverSchema.pre("save", function (next) {
-    if (!this.id) {
-        // get initials
-        const namePart = this.name
-            .split(" ")
-            .map((word) => word[0].toUpperCase())
-            .join("");
-
-        // last 3 digits of phone
-        const phonePart = this.phone.toString().slice(-3);
-
-        // first letter of vehicleType
-        const vehicleTypePart = this.vehicle.vehicleType[0].toUpperCase();
-        // last 3 alphanumerics of plateNumber
-        const platePart = this.vehicle.plateNumber
-            .replace(/\s+/g, "")
-            .slice(-3)
-            .toUpperCase();
-        // combined vehicle parts
-        const vehiclePart = `${vehicleTypePart}${platePart}`;
-
-        this.id = `D-${namePart}${phonePart}-${vehiclePart}`;
-    }
-    next();
-});
 
 // By convention, the name of the Model is singular and UpperCamelCased
 module.exports = mongoose.model("Drivers", driverSchema);

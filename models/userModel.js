@@ -1,3 +1,5 @@
+const authUtil = require("../util/authentication");
+
 async function addUser(data, Model, userType = "user") {
     try {
         // check for existing user through email
@@ -19,7 +21,7 @@ async function addUser(data, Model, userType = "user") {
         }
 
         // hash the password
-        const { hashedPassword, salt, iterations } = this.hashPassword(
+        const { hashedPassword, salt, iterations } = authUtil.hashPassword(
             data.password
         );
 
@@ -76,7 +78,7 @@ async function loginUser(data, Model, userType = "user") {
                 : userFound.password;
 
         // verify password
-        const isPasswordValid = this.verifyPassword(
+        const isPasswordValid = authUtil.verifyPassword(
             data.password,
             storedHash,
             salt,
@@ -85,7 +87,7 @@ async function loginUser(data, Model, userType = "user") {
 
         if (isPasswordValid) {
             // create a jwt token
-            const token = this.createToken({
+            const token = authUtil.createToken({
                 email: data.email,
                 name: userFound.name,
                 userType: userType,

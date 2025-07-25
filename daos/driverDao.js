@@ -63,31 +63,31 @@ const driverSchema = new mongoose.Schema(
 );
 
 // pre-save hook to generate 'id'
-// driverSchema.pre("save", function (next) {
-//     if (!this.id) {
-//         // get initials
-//         const namePart = this.name
-//             .split(" ")
-//             .map((word) => word[0].toUpperCase())
-//             .join("");
+driverSchema.pre("save", function (next) {
+    if (!this.id) {
+        // get initials
+        const namePart = this.name
+            .split(" ")
+            .map((word) => word[0].toUpperCase())
+            .join("");
 
-//         // last 3 digits of phone
-//         const phonePart = this.phone.toString().slice(-3);
+        // last 3 digits of phone
+        const phonePart = this.phone.toString().slice(-3);
 
-//         // first letter of vehicleType
-//         const vehicleTypePart = this.vehicle.vehicleType[0].toUpperCase();
-//         // last 3 alphanumerics of plateNumber
-//         const platePart = this.vehicle.plateNumber
-//             .replace(/\s+/g, "")
-//             .slice(-3)
-//             .toUpperCase();
-//         // combined vehicle parts
-//         const vehiclePart = `${vehicleTypePart}${platePart}`;
+        // first letter of vehicleType
+        const vehicleTypePart = this.vehicle.vehicleType[0].toUpperCase();
+        // last 3 alphanumerics of plateNumber
+        const platePart = this.vehicle.plateNumber
+            .replace(/\s+/g, "")
+            .slice(-3)
+            .toUpperCase();
+        // combined vehicle parts
+        const vehiclePart = `${vehicleTypePart}${platePart}`;
 
-//         this.id = `${namePart}${phonePart}-${vehiclePart}`;
-//     }
-//     next();
-// });
+        this.id = `D-${namePart}${phonePart}-${vehiclePart}`;
+    }
+    next();
+});
 
 // By convention, the name of the Model is singular and UpperCamelCased
 module.exports = mongoose.model("Drivers", driverSchema);

@@ -67,5 +67,25 @@ const adminSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+// pre-save hook to generate 'id'
+adminSchema.pre("save", function (next) {
+    if (!this.id) {
+        // get initials
+        const namePart = this.name
+            .split(" ")
+            .map((word) => word[0].toUpperCase())
+            .join("");
+
+        // last 3 digits of phone
+        const phonePart = this.phone.toString().slice(-3);
+
+        // super admin part
+        const superAdminPart = this.isSuperAdmin ? "S" : "R";
+
+        this.id = `A-${namePart}${phonePart}${superAdminPart}`;
+    }
+    next();
+});
+
 // By convention, the name of the Model is singular and UpperCamelCased
 module.exports = mongoose.model("Admins", adminSchema);

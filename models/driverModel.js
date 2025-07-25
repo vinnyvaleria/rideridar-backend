@@ -8,6 +8,7 @@ async function getAllDrivers() {
 async function getDriverById(id) {
     return await userModel.getUserById(Driver, id);
 }
+
 async function addDriver(data) {
     return await userModel.addUser(data, Driver, "driver");
 }

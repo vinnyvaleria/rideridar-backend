@@ -4,6 +4,7 @@ const driverCtrl = require("../controllers/driverCtrl");
 const securityMiddleWare = require("../middlewares/security");
 
 router.get("/", driverCtrl.showAllDrivers);
+router.get("/filter", driverCtrl.showFilteredDrivers);
 router.get("/:id", driverCtrl.showDriverById);
 
 router.post("/register", driverCtrl.createDriver);

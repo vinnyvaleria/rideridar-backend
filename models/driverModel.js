@@ -20,10 +20,25 @@ async function logoutDriver(data) {
     return await userModel.logoutUser(data, Driver, "driver");
 }
 
+async function getFilteredDrivers(type, status) {
+    const query = {};
+
+    if (type) {
+        query["vehicle.vehicleType"] = type;
+    }
+
+    if (status) {
+        query.status = status;
+    }
+
+    return await Driver.find(query);
+}
+
 module.exports = {
     getAllDrivers,
     getDriverById,
     addDriver,
     loginDriver,
     logoutDriver,
+    getFilteredDrivers,
 };

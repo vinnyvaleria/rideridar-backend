@@ -68,12 +68,10 @@ const bookingsSchema = new mongoose.Schema(
         guest: {
             name: {
                 type: String,
-                required: true,
             },
 
             phone: {
                 type: String,
-                required: true,
             },
         },
 

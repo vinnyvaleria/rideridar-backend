@@ -36,6 +36,14 @@ const adminSchema = new mongoose.Schema(
         jwt: {
             type: String,
         },
+        hash: {
+            salt: {
+                type: String,
+            },
+            iterations: {
+                type: Number,
+            },
+        },
         isSuperAdmin: {
             type: Boolean,
             default: false,

@@ -135,6 +135,7 @@ async function logoutUser(data) {
     return {
         status: 0,
         message: "Logout successful.",
+        admin: userData,
     };
 }
 

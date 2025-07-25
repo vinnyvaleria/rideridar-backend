@@ -13,20 +13,17 @@ function getExpiry(token) {
 }
 
 function verifyJWT(token) {
-    const payload = jwt.verify(
-        token,
-        process.env.SECRET,
-        function (err, decoded) {
-            // If valid token, decoded will be the token's entire payload
-            // If invalid token, err will be set
-            console.log(err, decoded);
-            if (err !== null) {
-                return null;
-            }
-            return decoded;
-        }
-    );
-    return payload;
+    try {
+        // Use synchronous version for simpler error handling
+        const decoded = jwt.verify(token, process.env.SECRET);
+        console.log("Decoded token:", decoded);
+
+        // Return the actual payload since we wrapped it in { payload } when creating
+        return decoded.payload;
+    } catch (err) {
+        console.log("JWT verification error:", err.message);
+        return null;
+    }
 }
 
 module.exports = {

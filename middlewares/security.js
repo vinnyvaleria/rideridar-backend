@@ -1,16 +1,21 @@
 const utilSecurity = require("../util/security");
 
 function checkJWT(req, res, next) {
-    // Check for the token being sent in a header or as a query parameter
     let token = req.get("Authorization") || req.query.token;
+    console.log("=== JWT CHECK DEBUG ===");
+    console.log("Raw Authorization header:", req.get("Authorization"));
+    console.log("Query token:", req.query.token);
+    console.log("Final token to verify:", token);
+
     if (token) {
         token = token.replace("Bearer ", "");
-        console.log("Token received: ", token);
+        console.log("Token after Bearer removal:", token);
 
         req.user = utilSecurity.verifyJWT(token);
-        console.log("User from token: ", req.user);
+        console.log("User from token:", req.user);
+        console.log("=== END DEBUG ===");
     } else {
-        // No token was sent
+        console.log("No token found");
         req.user = null;
     }
     return next();

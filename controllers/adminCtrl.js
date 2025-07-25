@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const adminModel = require("../models/adminModel");
 
 async function showAllAdmins(req, res) {
@@ -11,14 +10,8 @@ async function showAllAdmins(req, res) {
 }
 
 async function showAdminById(req, res) {
-    const { id } = req.params;
-
-    // Validate ObjectId format before querying
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: "Invalid admin ID format" });
-    }
-
     try {
+        const { id } = req.params;
         const admin = await adminModel.getAdminById(id);
         if (!admin) {
             return res.status(404).json({ error: "Admin not found" });

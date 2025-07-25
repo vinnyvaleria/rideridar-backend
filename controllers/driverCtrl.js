@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const driverModel = require("../models/driverModel");
 
 async function showAllDrivers(req, res) {
@@ -11,14 +10,8 @@ async function showAllDrivers(req, res) {
 }
 
 async function showDriverById(req, res) {
-    const { id } = req.params;
-
-    // Validate ObjectId format before querying
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: "Invalid driver ID format" });
-    }
-
     try {
+        const { id } = req.params;
         const driver = await driverModel.getDriverById(id);
         if (!driver) {
             return res.status(404).json({ error: "Driver not found" });

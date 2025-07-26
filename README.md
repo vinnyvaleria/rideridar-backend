@@ -121,8 +121,6 @@ Use http://localhost:3000 to test the server response.
 | `GET`  | `/booking/:id`               | Get single booking detail |
 | `PUT`  | `/booking/:id/assign-driver` | Assign or update driver   |
 
----
-
 ### 👨‍✈️ Driver Routes
 
 | Method | Endpoint           | Description                   |
@@ -133,8 +131,6 @@ Use http://localhost:3000 to test the server response.
 | `POST` | `/driver/register` | Register new driver           |
 | `POST` | `/driver/login`    | Login driver                  |
 | `POST` | `/driver/logout`   | Logout driver (JWT protected) |
-
----
 
 ### 🧑‍💼 Admin Routes
 
@@ -189,7 +185,6 @@ Use http://localhost:3000 to test the server response.
 
 -   Enable admins to assign roles.
 -   Manage booking status updates.
-
 
 ## 🙌 References and Credits
 

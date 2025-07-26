@@ -8,7 +8,8 @@ You may check out the frontend repository [here](https://github.com/Josephdeepu1
 
 ## 🎯 Project Objective
 
-This backend powers an **exclusive car ride booking application**.  
+This backend powers an **exclusive car ride booking application**.
+
 It handles the **end-to-end booking and flow**, from customer form submission to driver assignment and ride completion, with admin oversight and a driver dashboard.
 
 ## 🛠 Features
@@ -189,7 +190,6 @@ Use http://localhost:3000 to test the server response.
 -   Enable admins to assign roles.
 -   Manage booking status updates.
 
----
 
 ## 🙌 References and Credits
 

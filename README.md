@@ -2,7 +2,7 @@
 
 **Rideridar (Ridevanta)** A modern luxury web app for booking executive private rides. Focused on seamless user experience and backend integration.
 
-![Rideridar Dashboard](/rideridar-backend/assets/images/dashboard.png)
+![Rideridar Dashboard](/assets/images/dashboard.png)
 
 You may check out the frontend repository [here](https://github.com/Josephdeepu1982/rideridar-frontend).
 

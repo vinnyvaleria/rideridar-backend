@@ -1,5 +1,28 @@
 const adminModel = require("../models/adminModel");
 
+async function showAllAdmins(req, res) {
+    try {
+        const admins = await adminModel.getAllAdmins();
+        res.json(admins);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+async function showAdminById(req, res) {
+    try {
+        const { id } = req.params;
+        const admin = await adminModel.getAdminById(id);
+        if (!admin) {
+            return res.status(404).json({ error: "Admin not found" });
+        }
+        res.json(admin);
+    } catch (error) {
+        console.error("Error fetching admin by ID:", error.message);
+        res.status(500).json({ error: error.message });
+    }
+}
+
 async function createAdmin(req, res) {
     try {
         const adminResp = await adminModel.addAdmin(req.body);
@@ -19,7 +42,7 @@ async function createAdmin(req, res) {
 
 async function loginAdmin(req, res) {
     try {
-        const adminResp = await adminModel.loginUser(req.body);
+        const adminResp = await adminModel.loginAdmin(req.body);
         if (
             adminResp.status &&
             (adminResp.status === 1 ||
@@ -43,14 +66,12 @@ async function logoutAdmin(req, res) {
     try {
         if (!req.user || !req.user.email) {
             return res.status(401).json({
-                message: "User not authenticated.",
+                message: "Admin not authenticated.",
             });
         }
-        console.log("req.user:", req.user);
-        console.log("req.user.email:", req.user?.email);
 
         const email = req.user.email;
-        const adminResp = await adminModel.logoutUser({ email });
+        const adminResp = await adminModel.logoutAdmin({ email });
 
         if (adminResp.status && adminResp.status === 1) {
             return res.status(404).json({ message: adminResp.message });
@@ -64,6 +85,8 @@ async function logoutAdmin(req, res) {
 }
 
 module.exports = {
+    showAllAdmins,
+    showAdminById,
     createAdmin,
     loginAdmin,
     logoutAdmin,

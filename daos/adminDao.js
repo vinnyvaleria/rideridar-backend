@@ -13,6 +13,9 @@ const permissionSchema = new mongoose.Schema(
 
 const adminSchema = new mongoose.Schema(
     {
+        id: {
+            type: String,
+        },
         name: {
             type: String,
             required: true,

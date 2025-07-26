@@ -3,6 +3,9 @@ var router = express.Router();
 const adminCtrl = require("../controllers/adminCtrl");
 const securityMiddleWare = require("../middlewares/security");
 
+router.get("/", adminCtrl.showAllAdmins);
+router.get("/:id", adminCtrl.showAdminById);
+
 router.post("/register", adminCtrl.createAdmin);
 router.post("/login", adminCtrl.loginAdmin);
 router.post(

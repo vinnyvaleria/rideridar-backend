@@ -1,19 +1,29 @@
 const Driver = require("../daos/driverDao");
-
-async function addDriver(data) {
-    return await Driver.create(data);
-}
+const userModel = require("./userModel");
 
 async function getAllDrivers() {
-    return await Driver.find({});
+    return await userModel.getAllUsers(Driver);
 }
 
 async function getDriverById(id) {
-    return await Driver.findById(id);
+    return await userModel.getUserById(Driver, id);
+}
+async function addDriver(data) {
+    return await userModel.addUser(data, Driver, "driver");
+}
+
+async function loginDriver(data) {
+    return await userModel.loginUser(data, Driver, "driver");
+}
+
+async function logoutDriver(data) {
+    return await userModel.logoutUser(data, Driver, "driver");
 }
 
 module.exports = {
-    addDriver,
     getAllDrivers,
     getDriverById,
+    addDriver,
+    loginDriver,
+    logoutDriver,
 };
